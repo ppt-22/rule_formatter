@@ -1,6 +1,7 @@
 # rule_formatter
 A basic python script to display (show), format (fmt), edit (edit) and validate (validate) ace rules.
 A custom alias can be set if chosen while setting up the script, else default (ace_rk) value will be set.
+One thing to note is to mention the rule id correctly. Especially for rule ids of the format 2.x.x. For rule ids of the format 1.1.x, the last 4 digits can be mentioned. But for rule ids of the format 2.x.x, the whole id should be mentioned.
 The tool provides multiple functionalities which are mentioned below.
 
 ## show
