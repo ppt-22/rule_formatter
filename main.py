@@ -8,6 +8,7 @@ from functionalities.fmt import main_fmt
 from functionalities.show import main_show
 from functionalities.edit import main_edit
 from functionalities.validate import main_validate
+from functionalities.convert import main_convert
 
 def main(args):
     # Specify the directory path you want to start from
@@ -34,6 +35,8 @@ def main(args):
         print(option)
         check_last_update()
         main_edit(rule_id,rule_type)
+    if option == "convert":
+        main_convert()
     if option == "update":
         get_data()
         check_last_update()
@@ -43,6 +46,7 @@ def main(args):
                 -> use fmt to format a rule
                 -> use show to print out a rule on terminal
                 -> use validate to validate a rule
+                -> use convert to convert a helix query to ace query
                 -> use update to update the rule_data file manually
                 -> use list to list out the functionalities offered by this tool 
 """)
