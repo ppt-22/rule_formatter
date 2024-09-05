@@ -1,6 +1,7 @@
 import yaml
 import os
 import subprocess
+from datetime import datetime
 
 dirname = os.path.dirname(__file__)
 main_file = os.path.join(dirname, 'main.py')
@@ -35,6 +36,17 @@ rt_path = input("Enter path to your ruletester :    ")
 yaml_file = os.path.join(dirname, 'config.yaml')
 directory_path = os.path.join(ace_path, 'rules/one_stage_rules/')
 
+shell_path = os.environ.get("SHELL")
+print(shell_path)
+shell = ""
+if shell_path:
+    if "bash" in shell_path:
+        shell = "bashrc"
+    elif "zsh" in shell_path:
+        shell = "zshrc"
+    else:
+        shell = "bashrc"
+
 r = subprocess.run(["which","python"])
 if r.returncode==0:
     python_v = "python"
@@ -46,12 +58,13 @@ else:
         print("ERROR")
         exit(0)
 
-
+current_time = datetime.now()
 config_data = {
     'repo_path' : ace_path,
     'directory_path' : directory_path,
     'rt_path' : rt_path,
-    'python_v': python_v
+    'python_v': python_v,
+    'timestamp': f"{current_time.year} {current_time.month} {current_time.day} {current_time.hour} {current_time.minute} {current_time.second}"
 }
 with open(yaml_file,'w') as file:
     new_data = config_data
@@ -70,7 +83,7 @@ if q_1=='y':
             if shortcut == '':
                 shortcut = "ace_rk"
             print("Setting alias for you...")
-            command = f"""echo "alias {shortcut}='{python_v} {main_file}'" >> ~/.bashrc"""
+            command = f"""echo "alias {shortcut}='{python_v} {main_file}'" >> ~/.{shell}"""
             process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             process.wait()
             print("Done!")

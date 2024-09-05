@@ -1,13 +1,18 @@
-import yaml
 import os
-from script_utils import get_data, check_last_update
 
-# dirname = os.path.dirname(__file__)
-# yaml_file = os.path.join(dirname, 'config.yaml')
-# with open(yaml_file,'r') as f:
-#     df = yaml.safe_load(f,)
-#     rt_path = df['rt_path']
-#     directory_path = df['directory_path']
+def get_current_shell():
+    shell_path = os.environ.get("SHELL")
+    print(shell_path)
+    if shell_path:
+        if "bash" in shell_path:
+            return "bashrc"
+        elif "zsh" in shell_path:
+            return "zshrc"
+        else:
+            return "Other shell"
+    else:
+        return "SHELL environment variable not set"
 
-# get_data()
-check_last_update()
+# Example usage:
+current_shell = get_current_shell()
+print("Current shell:", current_shell)

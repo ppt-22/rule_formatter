@@ -13,9 +13,15 @@ def main(args):
     # Specify the directory path you want to start from
     
     option = args.option
-    rule_id = ''
     if args.rule:
-        rule_id = args.rule if '1.1.' in args.rule or "2.1." in args.rule else f"1.1.{args.rule}"
+        rule_id = args.rule
+        id_flag = False
+        while(not id_flag):
+            if len(rule_id) < 7:
+                print("Enter complete id please")
+                rule_id = input("Enter correct rule id:     ")    
+            else:
+                id_flag = True
     if option == "fmt":
         print(option)
         check_last_update()
