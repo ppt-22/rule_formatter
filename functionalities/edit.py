@@ -3,10 +3,10 @@ import os
 import json
 import sys
 import time
-from subprocess import Popen, run
-from script_utils import list_files_walk,file_operations, open_file_in_editor, get_data
+from subprocess import Popen, PIPE
+from script_utils import list_files_walk,file_operations, open_file_in_editor
 
-def main_edit(rule_id,rule_type):
+def main_edit(rule_id,rule_type,file_path):
     dirname = os.path.dirname(__file__)
     
     yaml_file = os.path.join(dirname, '../config.yaml')
@@ -19,17 +19,12 @@ def main_edit(rule_id,rule_type):
     #yaml file with all the data
     rule_folder = os.path.join(dirname, f'{directory_path}/{rule_id}')
 
-    json_file = os.path.join(dirname, '../rule_data.json')
-
-    with open(json_file,'r') as jf:
-        rule_data = json.load(jf)
-    
-    try:
-        file_path = rule_data[rule_id]
-        print("it's there")
+    file_path = file_path
+    if file_path:
+        print("\033[92mFound\033[00m")
         print(file_path)
         open_file_in_editor(file_path)
-    except:
+    else:
         print("Oh new rule? All the best!")
         # if rule_id not in json_file.keys():
         d = {
@@ -68,10 +63,10 @@ def main_edit(rule_id,rule_type):
         file_path = f'{rule_folder}/rule.yaml'
         with open(file_path,'w') as f:
             yaml.safe_dump(d,f)
-        p = Popen([rt_path, "--format", "RBC", "--rules",file_path, "--write-rules",file_path])
+        p = Popen([rt_path, "--format", "RBC", "--rules",file_path, "--write-rules",file_path],stdout=PIPE)
         p.wait()
         open_file_in_editor(file_path)
-        get_data()
+        # get_data()
         # else:
         #     print(f"DUPLICATE RULE ID ({rule_id}) FOUND!")
         #     sys.exit(1)

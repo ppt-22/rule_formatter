@@ -8,7 +8,39 @@ from pygments import highlight
 from pygments.lexers import YamlLexer
 from pygments.formatters import TerminalFormatter
 from datetime import datetime
+from collections import Counter
+import re
 from script_utils import *
+
+def get_duplicate_id(rule_list):
+    d = Counter(rule_list)    
+    new_list = list([item for item in d if d[item]>1])
+    return new_list
+
+def get_file_path(rule_id):
+    dirname = os.path.dirname(__file__)
+    config_file = os.path.join(dirname, 'config.yaml')
+    with open(config_file,'r') as file:
+        config_data = yaml.safe_load(file,)
+        directory_path = config_data["directory_path"]
+    ace_files = list_files_walk(directory_path)
+    return_code = 0
+    rs = []
+    for i in ace_files:
+        pattern = re.compile(r"\d.\d.(?:\d{3,4})")
+        matches = list(set(re.findall(pattern,i)))
+        # print(matches,i)
+        rs.append(matches[0])
+        if matches[0] == rule_id:
+            file_path = i
+            return_code = 1
+    if len(rs) != len(list(set(rs))):
+        print("\033[1;91mDuplicate rule id found\033[00m")
+        print(get_duplicate_id(rs))
+        exit(0)
+    if return_code == 0:
+        file_path = ""    
+    return file_path,return_code
 
 def check_tag_duplication(file_path):
     dirname = os.path.dirname(__file__)
@@ -18,45 +50,15 @@ def check_tag_duplication(file_path):
         repo_path = config_data["repo_path"]
     with open(file_path, 'r') as f:
         yaml_data = yaml.safe_load(f)
-    tags = yaml_data["metadata"].get("tags")
+    try:
+        tags = yaml_data["metadata"].get("tags",[])
+    except:
+        print("\n\033[1;91mMetadata seems to be empty..\033[00m")
+        exit(0)
     if len(tags) == len(list(set(tags))):
        return ["No duplication of tags!",tags]
     else:
        return ["Error",list(set(tags))]
-
-def get_data():
-    rule_ids = []
-    list_files = []
-    json_data = {}
-    dirname = os.path.dirname(__file__)
-    json_file = os.path.join(dirname, 'rule_data.json')
-    config_file = os.path.join(dirname, 'config.yaml')
-
-    with open(config_file,'r') as file:
-        config_data = yaml.safe_load(file,)
-        current_time = datetime.now()
-        direc_path = config_data["directory_path"]
-    with open(config_file,'w') as file:
-        config_data['timestamp'] = f"{current_time.year} {current_time.month} {current_time.day} {current_time.hour} {current_time.minute} {current_time.second}"
-        yaml.dump(config_data,file,sort_keys=False)
-    
-    list_files = list_files_walk(direc_path)
-
-    for yaml_file in list_files:
-      with open(yaml_file, 'r') as f:
-        yaml_data = yaml.safe_load(f)
-        rule_id = yaml_data.get("id")
-        if rule_id not in rule_ids:
-            json_data[yaml_data.get("id")] = yaml_file
-        else:
-           print(f"DUPLICATE RULE ID ({rule_id}) FOUND!")
-           sys.exit(1)
-        rule_ids.append(rule_id)
-
-    out_file = open(json_file, "w")
-    json.dump(json_data, out_file, indent = 4)
-    out_file.close()
-    return json_data
 
 def check_last_update():
     dirname = os.path.dirname(__file__)
@@ -75,12 +77,10 @@ def check_last_update():
 
     diff = b-a
     hours = diff.total_seconds()/3600
-    print("last update: ",math.ceil(hours*100)/100,"hours ago")
+    print("\033[90mlast update: ",math.ceil(hours*100)/100,"hours ago\033[00m")
     if hours > 24:
       subprocess.run(["git", "checkout", "main"], cwd=repo_path)
       subprocess.run(["git", "pull"], cwd=repo_path)
-      print("Updating rule data file")
-      get_data()
 
 
 def list_files_walk(start_path='.'):

@@ -70,7 +70,7 @@ with open(yaml_file,'w') as file:
     new_data = config_data
     yaml.dump(new_data,file,sort_keys=False)
 
-print("\nconfig.yaml: I'M ALIVE! I'M ALIVEEEE!\n")
+print("\nconfig.yaml: I'M ALIVEEEE!\n")
 
 if q_1=='y':
 
@@ -94,7 +94,6 @@ if q_1=='y':
                 print("-> use fmt to format a rule")
                 print("-> use show to print out a rule on terminal")
                 print("-> use validate to validate a rule")
-                print("-> use update to update a rule_data.json manually")
                 print("-> use list to list out the functionalities offered by this tool")
             else:
                 print("\nTips:")
