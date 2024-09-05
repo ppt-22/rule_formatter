@@ -24,7 +24,7 @@ This command can be used when the user wishes to edit an already existing rule o
 Additonally, when creating a new rule, an additonal argument, either 'rf' or 'proxy', can be passed respectively if the user wishes to create a new rf rule or proxy rule. This is not a mandatory argument. If left blank, a regular rule will be created. <br />
 Usage: <br />
 &ensp;For creating a regular rule&nbsp;- `ace_rk edit 1.1.8999`&nbsp;&ensp;&emsp;(here 1.1.8999 is the id of the new rule the user wishes to create) <br />
-&ensp;For creating a proxy rule&nbsp;&ensp;- `ace_rk edit 1.1.8999 rf`&emsp'(here 1.1.8999 is the id of the new rule the user wishes to create) <br />
+&ensp;For creating a proxy rule&ensp;&ensp;- `ace_rk edit 1.1.8999 rf`&emsp;(here 1.1.8999 is the id of the new rule the user wishes to create) <br />
 &ensp;For creating an rf rule&emsp;&nbsp;- `ace_rk edit 1.1.8999 proxy`&nbsp;(here 1.1.8999 is the id of the new rule the user wishes to create) <br />
 
 &ensp;For editing an exiting rule&nbsp;- `ace_rk edit 1.1.4249`&nbsp;&ensp;&emsp;(here 1.1.4249 is the id of an already exisitng rule) <br />
