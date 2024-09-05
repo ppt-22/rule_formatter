@@ -38,8 +38,12 @@ def main_validate(rule_id, flag, file_path):
     p.wait()
     otpt = p.stdout.read().decode()
     pattern = re.compile(r"RESULT: Rule.*fired\s+\d+|s+times")
-    if flag == "output":
-        pprint(otpt)
+    if flag!="None":
+        if flag == "output":
+            pprint(otpt)
+        else:
+            print(f"\033[1minvalid flag - {flag}\033[00m")
+            print(f"\033[1mavailable flags - output\033[00m\n")
     try:
         matches = re.search(pattern,otpt)
         if flag != "output" : print(matches.group()+" times")
