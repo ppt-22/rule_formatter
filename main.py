@@ -1,55 +1,51 @@
-from subprocess import Popen
-import os
 import argparse
-import yaml
-import sys
-from script_utils import list_files_walk,check_last_update,get_data
+from script_utils import get_file_path,check_last_update
 from functionalities.fmt import main_fmt
 from functionalities.show import main_show
 from functionalities.edit import main_edit
 from functionalities.validate import main_validate
 
 def main(args):
-    # Specify the directory path you want to start from
-    
     option = args.option
     if args.rule:
         rule_id = args.rule
         id_flag = False
         while(not id_flag):
             if len(rule_id) < 7:
-                print("Enter complete id please")
+                print("\033[93mEnter complete id please\033[00m")
                 rule_id = input("Enter correct rule id:     ")    
             else:
                 id_flag = True
+    file_path = get_file_path(rule_id)
+    if file_path[1] == 0 and option != "edit":
+        print("\033[91mErm..not found\033[00m")
+        exit(0)
+    else:
+        file_path = file_path[0]
     if option == "fmt":
-        print(option)
+        print(f"\033[96;1mFormatting rule {rule_id}\033[00m")
         check_last_update()
-        main_fmt(rule_id)
+        main_fmt(file_path,rule_id)
     if option == "show":
-        print(option)
+        print(f"\033[96;1mDisplaying rule {rule_id}\033[00m")
         check_last_update()
-        main_show(rule_id)
+        main_show(rule_id,file_path)
     if option == "validate":
-        print(option)
+        print(f"\033[96;1mValidating rule {rule_id}\033[00m")
         check_last_update()
-        flags = []
-        main_validate(rule_id,flags)
+        flag = f'{args.type}'
+        main_validate(rule_id,flag,file_path)
     if option == "edit":
+        print(f"\033[96;1mEditing rule {rule_id}\033[00m")
         rule_type = f'{args.type}'
-        print(option)
         check_last_update()
-        main_edit(rule_id,rule_type)
-    if option == "update":
-        get_data()
-        check_last_update()
+        main_edit(rule_id,rule_type,file_path)
     if option == "list":
         print("""
                 -> use edit to edit a rule or create a new rule with template
                 -> use fmt to format a rule
                 -> use show to print out a rule on terminal
                 -> use validate to validate a rule
-                -> use update to update the rule_data file manually
                 -> use list to list out the functionalities offered by this tool 
 """)
 

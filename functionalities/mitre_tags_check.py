@@ -28,16 +28,16 @@ def main_mitre_tags_check(file_path):
             tac_fin.append(tac_data)
         if tech_id in mitre_data.keys():
             if attack["technique"]["name"] != mitre_data[tech_id]["name"]:
-                print(f"[{rule_id}][{tech_id}] mitre technique name does not match")
+                print(f"\033[91m[{rule_id}][{tech_id}] mitre technique name does not match\033[00m")
                 sys.exit(1)
             if attack["version"] != str(mitre_data[tech_id]["version"]):
-                print(f"[{rule_id}][{tech_id}] mitre technique version does not match")
+                print(f"\033[91m[{rule_id}][{tech_id}] mitre technique version does not match\033[00m")
                 sys.exit(1)
             if mitre_data[tech_id]["tactics"] != tac_fin:
-                print(f"[{rule_id}][{tech_id}] mitre tactic does not match")
+                print(f"\033[91m[{rule_id}][{tech_id}] mitre tactic does not match\033[00m")
                 sys.exit(1)
         else:
-            print(f"{tech_id} not found in mitre data")
+            print(f"\033[91m{tech_id} not found in mitre data\033[00m")
     tags_file = os.path.join(repo_path, 'config/tag_ids.json')
     with open(tags_file) as tf:
         tags_orig = json.load(tf)
@@ -48,6 +48,6 @@ def main_mitre_tags_check(file_path):
         tag_list = rule_file["metadata"]["tags"]
         for tag in tag_list:
             if tag not in tag_ids:
-                print(f"Tag {tag} do not exist. Exiting.")
+                print(f"\033[91mTag {tag} do not exist. Exiting.\033[00m")
                 sys.exit(1)
-    print("\nMitre and tags check passed!! Noice!")
+    print("\n\033[1;92mMitre and tags check passed!! Noice!\033[00m")
