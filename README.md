@@ -3,7 +3,7 @@
 A basic python script to display (show), format (fmt), edit (edit) and validate (validate) ace rules. <br />
 A custom alias can be set if chosen while setting up the script, else default (ace_rk) value will be set. <br />
 Note: One thing to note is to mention the rule id correctly. <br />
-The tool provides multiple functionalities which are mentioned below. <br />
+The tool provides multiple functions which are mentioned below. <br />
 
 ## show
 
@@ -37,6 +37,6 @@ Usage: <br />
 
 ## list
 
-This command lists the functionalities the script provides. <br />
+This command lists the functions the tool provides. <br />
 Usage: <br />
  &ensp; `ace_rk list` <br />

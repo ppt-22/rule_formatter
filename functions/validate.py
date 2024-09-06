@@ -3,8 +3,8 @@ import yaml
 import json
 from subprocess import Popen, PIPE, STDOUT
 from script_utils import list_files_walk, check_tag_duplication
-from functionalities.mitre_tags_check import main_mitre_tags_check
-from functionalities.check_fields import main_check_fields
+from functions.mitre_tags_check import main_mitre_tags_check
+from functions.check_fields import main_check_fields
 import re
 from pprint import pprint
 

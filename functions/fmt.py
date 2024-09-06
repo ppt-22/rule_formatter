@@ -1,6 +1,6 @@
 from subprocess import Popen, PIPE
 from script_utils import list_files_walk, check_tag_duplication
-from functionalities.check_fields import main_check_fields
+from functions.check_fields import main_check_fields
 import os
 import yaml
 import json

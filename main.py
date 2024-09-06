@@ -1,10 +1,10 @@
 import argparse
 from script_utils import get_file_path,check_last_update
-from functionalities.fmt import main_fmt
-from functionalities.show import main_show
-from functionalities.edit import main_edit
-from functionalities.validate import main_validate
-from functionalities.update import main_update
+from functions.fmt import main_fmt
+from functions.show import main_show
+from functions.edit import main_edit
+from functions.validate import main_validate
+from functions.update import main_update
 
 
 def main(args):
@@ -43,7 +43,7 @@ def main(args):
         check_last_update()
         main_edit(rule_id,rule_type,file_path)
     if option == "update":
-        print(f"\n\033[96;1mUpdating the tool repository!\033[00m")
+        print(f"\n\033[96;1mChecking for updates...\033[00m")
         main_update()
     if option == "list":
         print("""
@@ -52,7 +52,7 @@ def main(args):
                 -> use show to print out a rule on terminal
                 -> use validate to validate a rule
                 -> use update to update the tool
-                -> use list to list out the functionalities offered by this tool 
+                -> use list to list out the functions offered by this tool 
                 -> For detailed info read the README.md file
 """)
 

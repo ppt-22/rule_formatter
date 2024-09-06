@@ -94,7 +94,7 @@ if q_1=='y':
                 print("-> use fmt to format a rule")
                 print("-> use show to print out a rule on terminal")
                 print("-> use validate to validate a rule")
-                print("-> use list to list out the functionalities offered by this tool")
+                print("-> use list to list out the functions offered by this tool")
             else:
                 print("\nTips:")
                 print("-> use -h or --help for help")
