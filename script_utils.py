@@ -12,6 +12,21 @@ from collections import Counter
 import re
 from script_utils import *
 
+def get_all_fields(dictionary,keys=[]):
+    try:
+        for key, value in dictionary.items():
+            if type(value) is dict:           
+                get_all_fields(value)
+            if type(value) is list:  
+                for i in value:        
+                    get_all_fields(i)
+                keys.append(key)
+            else:
+                keys.append(key)
+    except:
+        pass
+    return keys
+
 def get_duplicate_id(rule_list):
     d = Counter(rule_list)    
     new_list = list([item for item in d if d[item]>1])
@@ -81,6 +96,11 @@ def check_last_update():
     if hours > 24:
       subprocess.run(["git", "checkout", "main"], cwd=repo_path)
       subprocess.run(["git", "pull"], cwd=repo_path)
+      with open(config_file,'w') as file:
+        config_data['timestamp'] = f"{current_time.year} {current_time.month} {current_time.day} {current_time.hour} {current_time.minute} {current_time.second}"
+        new_data = config_data
+        yaml.dump(new_data,file,sort_keys=False)
+      
 
 
 def list_files_walk(start_path='.'):

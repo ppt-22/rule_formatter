@@ -9,6 +9,8 @@ from functions.update import main_update
 
 def main(args):
     option = args.option
+    rule_id = ""
+    file_path = ""
     if args.rule:
         rule_id = args.rule
         id_flag = False

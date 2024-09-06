@@ -18,7 +18,7 @@ def main_fmt(file_path,rule_id=''):
 
     if rule_id != '':
         file_path = file_path
-        print(rule_id)
+        print("\n"+rule_id)
         print(file_path)
         result = check_tag_duplication(file_path)
         if result[0] == "Error":
@@ -29,9 +29,10 @@ def main_fmt(file_path,rule_id=''):
             with open(file_path,'w') as f:
                 yaml.safe_dump(yaml_data,f)
         else:
-            print("\033[92mNo duplicate tags found!\033[00m")
-        p = Popen([rt_path, "--format", "RBC", "--rules", file_path, "--write-rules", file_path],stdout=PIPE)
+            print("\n\033[1;92mNo duplicate tags found!\033[00m")
+        p = Popen([rt_path, "--format", "RBC", "--rules", file_path, "--write-rules", file_path],stdout=PIPE,stderr=PIPE)
         p.wait()
+        if p.stderr: print(p.stderr.read().decode())
         main_check_fields(file_path)
     else:
         print("\033[91mFormat what? Give a valid rule id please...\033[00m")

@@ -1,5 +1,6 @@
 import yaml
 import os
+from script_utils import get_all_fields
 
 def main_check_fields(file_path):
 
@@ -8,7 +9,7 @@ def main_check_fields(file_path):
     with open(file_path,"r") as rf:
         rule = yaml.safe_load(rf,)
     try:
-        r_fields = list(rule["metadata"].keys())
+        r_fields = get_all_fields(rule)
         rq = rule["metadata"].get("recommended_query")
     except:
         print("\n\033[1;91mMetadata section appears to be empty. Please check\033[00m")
