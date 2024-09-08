@@ -1,6 +1,6 @@
 import argparse
 from argparse import RawTextHelpFormatter
-from script_utils import get_file_path,check_last_update
+from script_utils import get_file_path, check_last_update, check_version_update
 from functions.fmt import main_fmt
 from functions.show import main_show
 from functions.edit import main_edit
@@ -28,19 +28,23 @@ def main(args):
         else:
             file_path = file_path[0]
     if option == "fmt":
+        check_version_update()
         print(f"\n\033[96;1mFormatting rule {rule_id}\033[00m")
         check_last_update()
         main_fmt(file_path,rule_id)
     if option == "show":
+        check_version_update()
         print(f"\n\033[96;1mDisplaying rule {rule_id}\033[00m")
         check_last_update()
         main_show(rule_id,file_path)
     if option == "validate":
+        check_version_update()
         print(f"\n\033[96;1mValidating rule {rule_id}\033[00m")
         check_last_update()
         flag = f'{args.type}'
         main_validate(rule_id,flag,file_path)
     if option == "edit":
+        check_version_update()
         print(f"\n\033[96;1mEditing rule {rule_id}\033[00m")
         rule_type = f'{args.type}'
         check_last_update()
@@ -49,6 +53,7 @@ def main(args):
         print(f"\n\033[96;1mChecking for updates...\033[00m")
         main_update()
     if option == "list":
+        check_version_update()
         print("""
     -> \033[96;4;1medit\033[00m
         This command can be used when the user wishes to edit an already existing rule or to create a new rule file. 

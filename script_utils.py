@@ -12,6 +12,15 @@ from collections import Counter
 import re
 from script_utils import *
 
+def check_version_update():
+    dirname = os.path.dirname(__file__)
+    r_0 = subprocess.run(["git","checkout","main"],cwd=dirname,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+    r = subprocess.run(["git","status"],cwd=dirname,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+    if r.stderr.decode():
+        print("Something went wrong")
+    if "Your branch is behind 'origin/main' by " in r.stdout.decode():
+        print("New version available. Please update")
+
 def get_all_fields(dictionary,keys=[]):
     try:
         for key, value in dictionary.items():
