@@ -1,4 +1,5 @@
 import argparse
+from argparse import RawTextHelpFormatter
 from script_utils import get_file_path,check_last_update
 from functions.fmt import main_fmt
 from functions.show import main_show
@@ -49,17 +50,85 @@ def main(args):
         main_update()
     if option == "list":
         print("""
-                -> use edit to edit a rule or create a new rule with template
-                -> use fmt to format a rule
-                -> use show to print out a rule on terminal
-                -> use validate to validate a rule
-                -> use update to update the tool
-                -> use list to list out the functions offered by this tool 
-                -> For detailed info read the README.md file
+    -> \033[96;4;1medit\033[00m
+        This command can be used when the user wishes to edit an already existing rule or to create a new rule file. 
+        The actions can be distinguished by the rule id passed in the command. When passed the rule id of an already exisiting rule, 
+        the rule file will be opened but when the rule id does not exist, a new folder for the rule will be created with a skeleton 
+        where the user can fill in the details.
+        Additonally, when creating a new rule, an additonal argument, either 'rf' or 'proxy', can be passed respectively if the user 
+        wishes to create a new rf rule or proxy rule. This is not a mandatory argument. If left blank, a regular rule will be created.
+        Usage:
+          For creating a regular rule - ace_rk edit 1.1.8999 (here 1.1.8999 is the id of the new rule the user wishes to create)
+          For creating a proxy rule - ace_rk edit 1.1.8999 rf (here 1.1.8999 is the id of the new rule the user wishes to create)
+          For creating an rf rule - ace_rk edit 1.1.8999 proxy(here 1.1.8999 is the id of the new rule the user wishes to create)
+        
+          For editing an exiting rule - ace_rk edit 1.1.4249 (here 1.1.4249 is the id of an already exisitng rule)
+    -> \033[96;4;1fmt\033[00m
+        This command formats the rule in a rather syntactical manner that is to be followed in an ace rule. While it tests, it also 
+        checks for duplication in the tags, missing non-mandatory fields and missing recommended queries (guided investigations) in 
+        the rule and suggests the same.
+        Usage:
+          ace_rk fmt 1.1.4249
+    -> \033[96;4;1mshow\033[00m
+        This command displays a rule on the terminal when a rule id is passed to the command.
+        Usage:
+          ace_rk show 1.1.4249
+    -> \033[96;4;1mvalidate\033[00m
+        This command tests the rule whose rule id has been passed as an argument in the command against the test cases from the test.json file. 
+        While it tests, it also validates the mitre data, the tags in the rule, non-mandatory fields and recommended queries (guided investigations), 
+        checking for errors in the mitre data and duplication in the tags and suggesting over the missing non-mandatory fields and recommended queries.
+        Usage:
+          ace_rk validate 1.1.4249
+    -> \033[96;4;1mupdate\033[00m
+        This command updates the rule_formatter tool.
+        Usage:
+          ace_rk update
+    -> \033[96;4;1mlist\033[00m
+        This command lists out the functions the tool offers.
+        Usage:
+          ace_rk list
 """)
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Rule Library\n")
+    parser = argparse.ArgumentParser(description="Rule Library",formatter_class=RawTextHelpFormatter,epilog="""How to use:
+     -> \033[96;4;1medit\033[00m
+         This command can be used when the user wishes to edit an already existing rule or to create a new rule file. 
+         The actions can be distinguished by the rule id passed in the command. When passed the rule id of an already exisiting rule, 
+         the rule file will be opened but when the rule id does not exist, a new folder for the rule will be created with a skeleton 
+         where the user can fill in the details.
+         Additonally, when creating a new rule, an additonal argument, either 'rf' or 'proxy', can be passed respectively if the user 
+         wishes to create a new rf rule or proxy rule. This is not a mandatory argument. If left blank, a regular rule will be created.
+         Usage:
+           For creating a regular rule - ace_rk edit 1.1.8999 (here 1.1.8999 is the id of the new rule the user wishes to create)
+           For creating a proxy rule - ace_rk edit 1.1.8999 rf (here 1.1.8999 is the id of the new rule the user wishes to create)
+           For creating an rf rule - ace_rk edit 1.1.8999 proxy(here 1.1.8999 is the id of the new rule the user wishes to create)
+          
+           For editing an exiting rule - ace_rk edit 1.1.4249 (here 1.1.4249 is the id of an already exisitng rule)
+     -> \033[96;4;1mfmt\033[00m
+         This command formats the rule in a rather syntactical manner that is to be followed in an ace rule. While it tests, it also 
+         checks for duplication in the tags, missing non-mandatory fields and missing recommended queries (guided investigations) in 
+         the rule and suggests the same.
+         Usage:
+           ace_rk fmt 1.1.4249
+     -> \033[96;4;1mshow\033[00m
+         This command displays a rule on the terminal when a rule id is passed to the command.
+         Usage:
+           ace_rk show 1.1.4249
+     -> \033[96;4;1mvalidate\033[00m
+         This command tests the rule whose rule id has been passed as an argument in the command against the test cases from the test.json file. 
+         While it tests, it also validates the mitre data, the tags in the rule, non-mandatory fields and recommended queries (guided investigations), 
+         checking for errors in the mitre data and duplication in the tags and suggesting over the missing non-mandatory fields and recommended queries.
+         Usage:
+           ace_rk validate 1.1.4249
+     -> \033[96;4;1mupdate\033[00m
+         This command updates the rule_formatter tool.
+         Usage:
+           ace_rk update
+     -> \033[96;4;1mlist\033[00m
+         This command lists out the functions the tool offers.
+         Usage:
+           ace_rk list
+                                          """)
     parser.add_argument(
         "-v", "--verbose", action="store_true", default=False, help="Verbose output")
     parser.add_argument("option", help="Represents the function you want to perform. Values: edit, fmt, show, validate, update, list", nargs="?")

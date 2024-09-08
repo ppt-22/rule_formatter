@@ -44,7 +44,7 @@ def get_file_path(rule_id):
     for i in ace_files:
         pattern = re.compile(r"\d.\d.(?:\d{3,4})")
         matches = list(set(re.findall(pattern,i)))
-        if matches[0]:
+        if matches:
             rs.append(matches[0])
             if matches[0] == rule_id:
                 file_path = i
