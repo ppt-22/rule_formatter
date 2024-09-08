@@ -7,6 +7,11 @@ from subprocess import Popen, PIPE
 from script_utils import list_files_walk,file_operations, open_file_in_editor
 
 def main_edit(rule_id,rule_type,file_path):
+
+    while rule_id == "":
+        print("Rule id not enetered!")
+        rule_id = input("Please enter the rule id:\t")
+
     dirname = os.path.dirname(__file__)
     
     yaml_file = os.path.join(dirname, '../config.yaml')

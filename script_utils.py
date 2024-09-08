@@ -44,11 +44,11 @@ def get_file_path(rule_id):
     for i in ace_files:
         pattern = re.compile(r"\d.\d.(?:\d{3,4})")
         matches = list(set(re.findall(pattern,i)))
-        # print(matches,i)
-        rs.append(matches[0])
-        if matches[0] == rule_id:
-            file_path = i
-            return_code = 1
+        if matches[0]:
+            rs.append(matches[0])
+            if matches[0] == rule_id:
+                file_path = i
+                return_code = 1
     if len(rs) != len(list(set(rs))):
         print("\033[1;91mDuplicate rule id found\033[00m")
         print(get_duplicate_id(rs))
