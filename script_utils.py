@@ -121,11 +121,10 @@ def list_files_walk(start_path='.'):
     return list_files
 
 def print_yaml_in_color(yaml_file):
-  with open(yaml_file, 'r') as f:
-    yaml_data = yaml.safe_load(f)
-
-  colored_yaml = highlight(yaml.dump(yaml_data, default_flow_style=False), YamlLexer(), TerminalFormatter())
-  print(colored_yaml)
+    with open(yaml_file, 'r') as f:
+        yaml_data = yaml.safe_load(f)
+    colored_yaml = highlight(yaml.dump(yaml_data, default_flow_style=False,sort_keys=False), YamlLexer(), TerminalFormatter())
+    print(colored_yaml)
 
 def file_operations(rule_folder):
     create_dir_command = f"mkdir {rule_folder}"
