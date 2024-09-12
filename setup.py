@@ -64,7 +64,7 @@ config_data = {
     'directory_path' : directory_path,
     'rt_path' : rt_path,
     'python_v': python_v,
-    'timestamp': f"{current_time.year} {current_time.month} {current_time.day} {current_time.hour} {current_time.minute} {current_time.second}"
+    # 'timestamp': f"{current_time.year} {current_time.month} {current_time.day} {current_time.hour} {current_time.minute} {current_time.second}"
 }
 with open(yaml_file,'w') as file:
     new_data = config_data

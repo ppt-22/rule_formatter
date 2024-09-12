@@ -51,17 +51,21 @@ def get_file_path(rule_id):
     return_code = 0
     rs = []
     for i in ace_files:
-        pattern = re.compile(r"\d.\d.(?:\d{3,4})")
+        pattern = re.compile(r"(\d\.\d\.\d+[\/|\\])")
         matches = list(set(re.findall(pattern,i)))
         if matches:
-            rs.append(matches[0])
-            if matches[0] == rule_id:
+            if "\\" in matches[0]:
+                matched_rule_id = matches[0].replace(r"\\","")
+            if "/" in matches[0]:
+                matched_rule_id = matches[0].replace("/","")
+            rs.append(matched_rule_id)
+            if matched_rule_id == rule_id:
                 file_path = i
                 return_code = 1
     if len(rs) != len(list(set(rs))):
         print("\033[1;91mDuplicate rule id found\033[00m")
         print(get_duplicate_id(rs))
-        exit(0)
+        # exit(0)
     if return_code == 0:
         file_path = ""    
     return file_path,return_code
@@ -84,31 +88,31 @@ def check_tag_duplication(file_path):
     else:
        return ["Error",list(set(tags))]
 
-def check_last_update():
-    dirname = os.path.dirname(__file__)
-    config_file = os.path.join(dirname, 'config.yaml')
+# def check_last_update():
+#     dirname = os.path.dirname(__file__)
+#     config_file = os.path.join(dirname, 'config.yaml')
 
-    with open(config_file,'r') as file:
-        config_data = yaml.safe_load(file,)
-        timestamp = config_data["timestamp"]
-        repo_path = config_data["repo_path"]
+#     with open(config_file,'r') as file:
+#         config_data = yaml.safe_load(file,)
+#         timestamp = config_data["timestamp"]
+#         repo_path = config_data["repo_path"]
 
-    current_time = datetime.now()
-    b = datetime(current_time.year, current_time.month, current_time.day, current_time.hour, current_time.minute, current_time.second)
+#     current_time = datetime.now()
+#     b = datetime(current_time.year, current_time.month, current_time.day, current_time.hour, current_time.minute, current_time.second)
 
-    last_check = timestamp.split(" ")
-    a = datetime(int(last_check[0]), int(last_check[1]), int(last_check[2]), int(last_check[3]), int(last_check[4]), int(last_check[5]))
+#     last_check = timestamp.split(" ")
+#     a = datetime(int(last_check[0]), int(last_check[1]), int(last_check[2]), int(last_check[3]), int(last_check[4]), int(last_check[5]))
 
-    diff = b-a
-    hours = diff.total_seconds()/3600
-    print("\033[90mlast update: ",math.ceil(hours*100)/100,"hours ago\033[00m")
-    if hours > 24:
-      subprocess.run(["git", "checkout", "main"], cwd=repo_path)
-      subprocess.run(["git", "pull"], cwd=repo_path)
-      with open(config_file,'w') as file:
-        config_data['timestamp'] = f"{current_time.year} {current_time.month} {current_time.day} {current_time.hour} {current_time.minute} {current_time.second}"
-        new_data = config_data
-        yaml.dump(new_data,file,sort_keys=False)
+#     diff = b-a
+#     hours = diff.total_seconds()/3600
+#     print("\033[90mlast update: ",math.ceil(hours*100)/100,"hours ago\033[00m")
+#     if hours > 72:
+#       subprocess.run(["git", "checkout", "main"], cwd=repo_path)
+#       subprocess.run(["git", "pull"], cwd=repo_path)
+#       with open(config_file,'w') as file:
+#         config_data['timestamp'] = f"{current_time.year} {current_time.month} {current_time.day} {current_time.hour} {current_time.minute} {current_time.second}"
+#         new_data = config_data
+#         yaml.dump(new_data,file,sort_keys=False)
       
 
 
