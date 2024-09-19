@@ -14,11 +14,12 @@ from script_utils import *
 
 def check_version_update():
     dirname = os.path.dirname(__file__)
-    r_0 = subprocess.run(["git","checkout","main"],cwd=dirname,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+    r_0 = subprocess.run(["git","checkout","main"],cwd=dirname,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
     r = subprocess.run(["git","status"],cwd=dirname,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-    if r.stderr.decode():
+    r_otpt, r_err = r.communicate()
+    if r_err.decode():
         print("Something went wrong")
-    if "Your branch is behind 'origin/main' by " in r.stdout.decode():
+    if "Your branch is behind 'origin/main' by " in r_otpt.decode():
         print("New version available. Please update")
 
 def get_all_fields(dictionary,keys=[]):

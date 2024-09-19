@@ -31,8 +31,9 @@ def main_fmt(file_path,rule_id=''):
         with open(file_path,'w') as f:
             yaml.safe_dump(yaml_data,f)
         p = Popen([rt_path, "--format", "RBC", "--rules", file_path, "--write-rules", file_path],stdout=PIPE,stderr=PIPE)
+        otpt, err = p.communicate()
         p.wait()
-        if p.stderr: print(p.stderr.read().decode())
+        if err: print(err.decode())
         main_check_fields(file_path)
     else:
         print("\033[91mFormat what? Give a valid rule id please...\033[00m")

@@ -84,7 +84,7 @@ if q_1=='y':
                 shortcut = "ace_rk"
             print("Setting alias for you...")
             command = f"""echo "alias {shortcut}='{python_v} {main_file}'" >> ~/.{shell}"""
-            process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            process = subprocess.Popen(command, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             process.wait()
             print("Done!")
             if q_1=='y':

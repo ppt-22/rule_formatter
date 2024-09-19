@@ -3,7 +3,7 @@ import os
 import json
 import sys
 import time
-from subprocess import Popen, PIPE
+from subprocess import Popen, PIPE, DEVNULL
 from script_utils import list_files_walk,file_operations, open_file_in_editor
 
 def main_edit(rule_id,rule_type,file_path):
@@ -70,6 +70,6 @@ def main_edit(rule_id,rule_type,file_path):
         file_path = f'{rule_folder}/rule.yaml'
         with open(file_path,'w') as f:
             yaml.safe_dump(d,f)
-        p = Popen([rt_path, "--format", "RBC", "--rules",file_path, "--write-rules",file_path],stdout=PIPE)
+        p = Popen([rt_path, "--format", "RBC", "--rules",file_path, "--write-rules",file_path],stdout=DEVNULL)
         p.wait()
         open_file_in_editor(file_path)
