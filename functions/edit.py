@@ -21,8 +21,10 @@ def main_edit(rule_id,rule_type,file_path):
         rt_path = df['rt_path']
         directory_path = df['directory_path']
         
-    #yaml file with all the data
-    rule_folder = os.path.join(dirname, f'{directory_path}/{rule_id}')
+    if "2.2." in rule_id:
+        rule_folder = os.path.join(dirname, f'{directory_path}/use_case_specific/{rule_id}')
+    else:
+        rule_folder = os.path.join(dirname, f'{directory_path}/one_stage_rules/{rule_id}')
 
     file_path = file_path
     if file_path:

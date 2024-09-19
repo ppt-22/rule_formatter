@@ -141,6 +141,10 @@ def file_operations(rule_folder):
     process = subprocess.Popen(test_file, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     process.wait()
 
+
 def open_file_in_editor(file_path):
-    p_c = subprocess.Popen(["code", file_path])
-    p_c.wait()
+    try:
+        p_c = subprocess.Popen(["code", file_path])
+        p_c.wait()
+    except:
+        print("\n\033[1;30mSomething went wrong. Couldn't open the file. But the file is created\033[00M")

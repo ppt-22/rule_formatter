@@ -12,16 +12,15 @@ def main_validate(rule_id, flag, file_path):
         
     dirname = os.path.dirname(__file__)
     yaml_file = os.path.join(dirname, '../config.yaml')
-    
     with open(yaml_file,'r') as f:
         d = yaml.safe_load(f,)
-        directory_path = d['directory_path']
+        repo_path = d['repo_path']
         rt_path = d['rt_path']
     
     file_path = file_path
     
     test_path = file_path.replace('rule.yaml','positiveTests/test.json')
-    watchlist_path = directory_path.replace('rules/one_stage_rules/','watchlists')
+    watchlist_path = os.path.join(repo_path,'watchlists')
     print(file_path)
     result = check_tag_duplication(file_path)
     if result[0] == "Error":
@@ -34,9 +33,9 @@ def main_validate(rule_id, flag, file_path):
     else:
         print(f"\n\033[1;92m{result[0]}\033[00m\n")
     args = [rt_path, "--format", "RBC" ,"--rules",file_path, "--write-rules", file_path,"--events",test_path,"--watchlists",watchlist_path, "--output"]
-    p = Popen(args,stdout=PIPE,stderr=STDOUT)
+    p = Popen(args,stdout=PIPE,stderr=STDOUT,universal_newlines=True)
+    otpt = p.communicate()[0]
     p.wait()
-    otpt = p.stdout.read().decode()
     pattern = re.compile(r"RESULT: Rule.*fired\s+\d+|s+times")
     if flag!="None":
         if flag == "output":
