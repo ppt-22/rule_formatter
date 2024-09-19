@@ -71,7 +71,3 @@ def main_edit(rule_id,rule_type,file_path):
         p = Popen([rt_path, "--format", "RBC", "--rules",file_path, "--write-rules",file_path],stdout=PIPE)
         p.wait()
         open_file_in_editor(file_path)
-        # get_data()
-        # else:
-        #     print(f"DUPLICATE RULE ID ({rule_id}) FOUND!")
-        #     sys.exit(1)

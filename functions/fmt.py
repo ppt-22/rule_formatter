@@ -22,14 +22,14 @@ def main_fmt(file_path,rule_id=''):
         print(file_path)
         result = check_tag_duplication(file_path)
         if result[0] == "Error":
-            print("\033[93mDuplicate tags found. Fixing it...\033[00m")
-            with open(file_path, 'r') as f:
-                yaml_data = yaml.safe_load(f)
-            yaml_data["metadata"]["tags"] = result[1]
-            with open(file_path,'w') as f:
-                yaml.safe_dump(yaml_data,f)
+            print("\n\033[93mDuplicate tags found. Fixing it...\033[00m")
         else:
             print("\n\033[1;92mNo duplicate tags found!\033[00m")
+        with open(file_path, 'r') as f:
+            yaml_data = yaml.safe_load(f)
+        yaml_data["metadata"]["tags"] = result[1]
+        with open(file_path,'w') as f:
+            yaml.safe_dump(yaml_data,f)
         p = Popen([rt_path, "--format", "RBC", "--rules", file_path, "--write-rules", file_path],stdout=PIPE,stderr=PIPE)
         p.wait()
         if p.stderr: print(p.stderr.read().decode())

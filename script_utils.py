@@ -80,41 +80,38 @@ def check_tag_duplication(file_path):
         yaml_data = yaml.safe_load(f)
     try:
         tags = yaml_data["metadata"].get("tags",[])
+        if type(tags) != list:
+            tags = [tags]
     except:
         print("\n\033[1;91mMetadata seems to be empty..\033[00m")
         exit(0)
-    if len(tags) == len(list(set(tags))):
-       return ["No duplication of tags!",tags]
+
+    #json file with tag data
+    tag_file = os.path.join(repo_path, 'config/tag_ids.json')
+
+    with open(tag_file) as jf:
+        tags_data = json.load(jf)
+
+    new_tags = []
+    flag = 0
+    left_overs = []
+    for i in tags:
+        if i in tags_data.values():
+            new_tags.append(i)
+        elif i in "  ".join(tags_data.keys()).lower():
+            flag = 1
+            for j in tags_data.keys():
+                if i.lower() in j.lower():
+                    new_tags.append(tags_data[j])
+                    # print(i)
+        else:
+            left_overs.append(i)
+    if left_overs:
+        print(f"\033[91mTags not found: {left_overs}\033[00m")
+    if len(new_tags) == len(list(set(new_tags))):
+       return ["No duplication of tags!",new_tags]
     else:
-       return ["Error",list(set(tags))]
-
-# def check_last_update():
-#     dirname = os.path.dirname(__file__)
-#     config_file = os.path.join(dirname, 'config.yaml')
-
-#     with open(config_file,'r') as file:
-#         config_data = yaml.safe_load(file,)
-#         timestamp = config_data["timestamp"]
-#         repo_path = config_data["repo_path"]
-
-#     current_time = datetime.now()
-#     b = datetime(current_time.year, current_time.month, current_time.day, current_time.hour, current_time.minute, current_time.second)
-
-#     last_check = timestamp.split(" ")
-#     a = datetime(int(last_check[0]), int(last_check[1]), int(last_check[2]), int(last_check[3]), int(last_check[4]), int(last_check[5]))
-
-#     diff = b-a
-#     hours = diff.total_seconds()/3600
-#     print("\033[90mlast update: ",math.ceil(hours*100)/100,"hours ago\033[00m")
-#     if hours > 72:
-#       subprocess.run(["git", "checkout", "main"], cwd=repo_path)
-#       subprocess.run(["git", "pull"], cwd=repo_path)
-#       with open(config_file,'w') as file:
-#         config_data['timestamp'] = f"{current_time.year} {current_time.month} {current_time.day} {current_time.hour} {current_time.minute} {current_time.second}"
-#         new_data = config_data
-#         yaml.dump(new_data,file,sort_keys=False)
-      
-
+       return ["Error",list(set(new_tags))]
 
 def list_files_walk(start_path='.'):
     list_files = []
