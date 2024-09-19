@@ -34,7 +34,7 @@ ace_path = input("Enter path to your ace rules repository :    ")
 rt_path = input("Enter path to your ruletester :    ")
 
 yaml_file = os.path.join(dirname, 'config.yaml')
-directory_path = os.path.join(ace_path, 'rules/one_stage_rules/')
+directory_path = os.path.join(ace_path, 'rules/')
 
 shell_path = os.environ.get("SHELL")
 print(shell_path)
