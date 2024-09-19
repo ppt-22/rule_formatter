@@ -39,7 +39,7 @@ def main_validate(rule_id, flag, file_path):
     pattern = re.compile(r"RESULT: Rule.*fired\s+\d+|s+times")
     if flag!="None":
         if flag == "output":
-            pprint(f"{otpt}")
+            print(f"{otpt}")
         else:
             print(f"\033[1minvalid flag - {flag}\033[00m")
             print(f"\033[1mavailable flags - output\033[00m\n")
