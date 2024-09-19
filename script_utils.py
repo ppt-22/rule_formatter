@@ -16,10 +16,10 @@ def check_version_update():
     dirname = os.path.dirname(__file__)
     r_0 = subprocess.run(["git","checkout","main"],cwd=dirname,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
     r = subprocess.run(["git","status"],cwd=dirname,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-    r_otpt, r_err = r.communicate()
-    if r_err.decode():
+    
+    if r.stdout.decode():
         print("Something went wrong")
-    if "Your branch is behind 'origin/main' by " in r_otpt.decode():
+    if "Your branch is behind 'origin/main' by " in r.stderr.decode():
         print("New version available. Please update")
 
 def get_all_fields(dictionary,keys=[]):
@@ -133,13 +133,13 @@ def file_operations(rule_folder):
     create_file_command = f"touch {rule_folder}/rule.yaml"
     test_folder = f"mkdir {rule_folder}/positiveTests"
     test_file = f"touch {rule_folder}/positiveTests/test.json"
-    process = subprocess.Popen(create_dir_command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.Popen(create_dir_command, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     process.wait()
-    process = subprocess.Popen(create_file_command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.Popen(create_file_command, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     process.wait()
-    process = subprocess.Popen(test_folder, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.Popen(test_folder, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     process.wait()
-    process = subprocess.Popen(test_file, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.Popen(test_file, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     process.wait()
 
 
