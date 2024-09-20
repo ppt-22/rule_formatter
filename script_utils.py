@@ -12,6 +12,46 @@ from collections import Counter
 import re
 from script_utils import *
 
+def map_mitre(file_path,config_data):
+    repo_path = config_data["repo_path"]
+
+    mitre_file = os.path.join(repo_path, 'config/mitre_data.json')
+    with open(mitre_file) as mf:
+        mitre_data = json.load(mf)
+    
+    with open(file_path, 'r') as f:
+        yaml_data = yaml.safe_load(f)
+    old_attacks = yaml_data["metadata"].get("attacks",[])
+    if type(old_attacks) != list:
+        old_attacks = [old_attacks]
+    
+    mitre_in_rule = []
+    left_overs = []
+    for i in old_attacks:
+        temp = {}
+        if i in mitre_data.keys():
+            temp['tactics'] = []
+            for t in mitre_data[i]["tactics"]:
+                temp['tactics'].append({
+                'name': t["name"],
+                'uid':  t["id"]
+                })
+                
+            temp['technique'] = {
+                'name': mitre_data[i]["name"],
+                'uid': mitre_data[i]["id"]
+            }
+            temp['version'] = str(mitre_data[i]["version"])
+        else:
+            left_overs.append(i)
+        if temp:
+            mitre_in_rule.append(temp)
+    
+    if left_overs:
+        print(f"\033[91mMitre ids not found: {left_overs}\033[00m")
+    return mitre_in_rule
+
+
 def check_version_update():
     dirname = os.path.dirname(__file__)
     r_0 = subprocess.run(["git","checkout","main"],cwd=dirname,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
@@ -71,12 +111,8 @@ def get_file_path(rule_id):
         file_path = ""    
     return file_path,return_code
 
-def check_tag_duplication(file_path):
-    dirname = os.path.dirname(__file__)
-    config_file = os.path.join(dirname, 'config.yaml')
-    with open(config_file,'r') as file:
-        config_data = yaml.safe_load(file,)
-        repo_path = config_data["repo_path"]
+def check_tag_duplication(file_path,config_data):
+    repo_path = config_data["repo_path"]
     with open(file_path, 'r') as f:
         yaml_data = yaml.safe_load(f)
     try:
@@ -107,6 +143,7 @@ def check_tag_duplication(file_path):
                     # print(i)
         else:
             left_overs.append(i)
+            new_tags.append(i)
     if left_overs:
         print(f"\033[91mTags not found: {left_overs}\033[00m")
     if len(new_tags) == len(list(set(new_tags))):
