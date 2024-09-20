@@ -22,7 +22,7 @@ def main_validate(rule_id, flag, file_path):
     test_path = file_path.replace('rule.yaml','positiveTests/test.json')
     watchlist_path = os.path.join(repo_path,'watchlists')
     print(file_path)
-    result = check_tag_duplication(file_path)
+    result = check_tag_duplication(file_path,config_data)
     if result[0] == "Error":
         print("\033[1;93mDuplicate tags found. Fixing it...\033[00m")
         with open(file_path, 'r') as f:
