@@ -13,9 +13,9 @@ def main_validate(rule_id, flag, file_path):
     dirname = os.path.dirname(__file__)
     yaml_file = os.path.join(dirname, '../config.yaml')
     with open(yaml_file,'r') as f:
-        d = yaml.safe_load(f,)
-        repo_path = d['repo_path']
-        rt_path = d['rt_path']
+        config_data = yaml.safe_load(f,)
+        repo_path = config_data['repo_path']
+        rt_path = config_data['rt_path']
     
     file_path = file_path
     
