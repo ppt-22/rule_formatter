@@ -29,24 +29,27 @@ def map_mitre(file_path,config_data):
     left_overs = []
     for i in old_attacks:
         temp = {}
-        if i in mitre_data.keys():
-            temp['tactics'] = []
-            for t in mitre_data[i]["tactics"]:
-                temp['tactics'].append({
-                'name': t["name"],
-                'uid':  t["id"]
-                })
-                
-            temp['technique'] = {
-                'name': mitre_data[i]["name"],
-                'uid': mitre_data[i]["id"]
-            }
-            temp['version'] = str(mitre_data[i]["version"])
-        else:
-            left_overs.append(i)
-        if temp:
-            mitre_in_rule.append(temp)
-    
+        ttps = list(mitre_data.keys())
+        if type(i)!=dict:
+            if i in ttps:
+                temp['tactics'] = []
+                for t in mitre_data[i]["tactics"]:
+                    temp['tactics'].append({
+                    'name': t["name"],
+                    'uid':  t["id"]
+                    })
+                    
+                temp['technique'] = {
+                    'name': mitre_data[i]["name"],
+                    'uid': mitre_data[i]["id"]
+                }
+                temp['version'] = str(mitre_data[i]["version"])
+            else:
+                left_overs.append(i)
+            if temp:
+                mitre_in_rule.append(temp)
+        else: 
+            mitre_in_rule.append(i)
     if left_overs:
         print(f"\033[91mMitre ids not found: {left_overs}\033[00m")
     return mitre_in_rule
