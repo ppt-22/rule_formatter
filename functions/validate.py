@@ -45,9 +45,12 @@ def main_validate(rule_id, flag, file_path):
             print(f"\033[1mavailable flags - output\033[00m\n")
     try:
         matches = re.search(pattern,otpt)
+    except Exception as e:
+        print("Regex error: ",e)
+    if matches:
         if flag != "output" : print(matches.group()+" times")
         print("\n\033[1;92mValidation checks passed\033[00m")
-    except:
+    else:
         print("\n\033[1;91mValidation checks failed\033[00m")
     main_mitre_tags_check(file_path)
     main_check_fields(file_path)
