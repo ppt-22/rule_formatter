@@ -86,6 +86,7 @@ if q_1=='y':
             command = f"""echo "alias {shortcut}='{python_v} {main_file}'" >> ~/.{shell}"""
             process = subprocess.Popen(command, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             process.wait()
+            process.kill()
             print("Done!")
             if q_1=='y':
                 print("\nHow to use:")

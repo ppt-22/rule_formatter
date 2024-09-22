@@ -34,7 +34,7 @@ def main_fmt(file_path,rule_id=''):
             yaml.safe_dump(yaml_data,f)
         p = Popen([rt_path, "--format", "RBC", "--rules", file_path, "--write-rules", file_path],stdout=PIPE,stderr=PIPE)
         otpt, err = p.communicate()
-        p.wait()
+        p.kill()
         if err: print(err.decode())
         main_check_fields(file_path)
     else:

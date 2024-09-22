@@ -72,4 +72,5 @@ def main_edit(rule_id,rule_type,file_path):
             yaml.safe_dump(d,f)
         p = Popen([rt_path, "--format", "RBC", "--rules",file_path, "--write-rules",file_path],stdout=DEVNULL)
         p.wait()
+        p.kill()
         open_file_in_editor(file_path)

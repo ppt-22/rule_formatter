@@ -175,17 +175,22 @@ def file_operations(rule_folder):
     test_file = f"touch {rule_folder}/positiveTests/test.json"
     process = subprocess.Popen(create_dir_command, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     process.wait()
+    process.kill()
     process = subprocess.Popen(create_file_command, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     process.wait()
+    process.kill()
     process = subprocess.Popen(test_folder, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     process.wait()
+    process.kill()
     process = subprocess.Popen(test_file, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     process.wait()
+    process.kill()
 
 
 def open_file_in_editor(file_path):
     try:
         p_c = subprocess.Popen(["code", file_path])
         p_c.wait()
+        p_c.kill()
     except:
         print("\n\033[1;30mSomething went wrong. Couldn't open the file. But the file is created\033[00M")
