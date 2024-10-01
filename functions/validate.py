@@ -29,7 +29,7 @@ def main_validate(rule_id, flag, file_path):
             version_flag = 1
         else:
             print(f"\033[1minvalid flag - {flag}\033[00m")
-            print(f"\033[1mavailable flags - output,version\033[00m\n")
+            print(f"\033[1mavailable flags - output, version\033[00m\n")
     
     test_path = file_path.replace('rule.yaml','positiveTests/test.json')
     watchlist_path = os.path.join(repo_path,'watchlists')
