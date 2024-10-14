@@ -32,6 +32,9 @@ def main_validate(rule_id, flag, file_path):
             print(f"\033[1mavailable flags - output, version\033[00m\n")
     
     test_path = file_path.replace('rule.yaml','positiveTests/test.json')
+    with open(test_path,"r") as jf:
+        testcase_count = len(jf.readlines())
+
     watchlist_path = os.path.join(repo_path,'watchlists')
     print(file_path)
     result = check_tag_duplication(file_path,config_data)
@@ -60,13 +63,20 @@ def main_validate(rule_id, flag, file_path):
     if output_flag:
         print(f"{otpt}")
     pattern = re.compile(r"RESULT: Rule.*fired\s+\d+|s+times")
+    pattern2 = re.compile(r"RESULT:     source event.*")
     try:
         matches = re.search(pattern,otpt)
+        matches2 = re.findall(pattern2,otpt)
     except Exception as e:
         print("Regex error: ",e)
     if matches:
         if flag != "output" : print(matches.group()+" times")
-        print("\n\033[1;92mValidation checks passed\033[00m")
+        trigger_count = matches.group().split(" ")[-1]
+        # print(trigger_count)
+        if int(trigger_count) == int(testcase_count):
+            print("\n\033[1;92mValidation checks passed\033[00m")
+        else:
+            print(f"\n\033[1;92mValidation checks passed. But seems like not all passed. Trigger count: {trigger_count}. No.of test cases: {testcase_count}\033[00m")
     else:
         print("\n\033[1;91mValidation checks failed\033[00m")
     main_mitre_tags_check(file_path)

@@ -1,4 +1,8 @@
 import argparse
+import os
+import yaml
+import click
+from pprint import pprint
 from argparse import RawTextHelpFormatter
 from script_utils import get_file_path, check_version_update
 from functions.fmt import main_fmt
@@ -6,6 +10,7 @@ from functions.show import main_show
 from functions.edit import main_edit
 from functions.validate import main_validate
 from functions.update import main_update
+from functions.convert import main_convert
 
 
 def main(args):
@@ -49,9 +54,25 @@ def main(args):
         rule_type = f'{args.type}'
         # check_last_update()
         main_edit(rule_id,rule_type,file_path)
+    elif option == "convert":
+        main_convert()
     elif option == "update":
         print(f"\n\033[96;1mChecking for updates...\033[00m")
         main_update()
+    elif option == "renew":
+        print(f"\n\033[96;1mWant to update the config file?\033[00m")
+        dirname = os.path.dirname(__file__)
+        yaml_file = os.path.join(dirname, 'config.yaml')
+        with open(yaml_file,"r") as cf:
+            config_data = yaml.safe_load(cf,)
+        config_data["repo_path"] = click.prompt("Enter the new repo_path or press enter if you want it unchanged: ",type=str,default=config_data["repo_path"])
+        config_data["directory_path"] = os.path.join(config_data["repo_path"], 'rules/')
+        config_data["rt_path"] = click.prompt("Enter the new ruletest path or press enter if you want it unchanged: ",type=str,default=config_data["rt_path"])
+        with open(yaml_file,'w') as file:
+            new_data = config_data
+            yaml.dump(new_data,file,sort_keys=False)
+        print("\n\n")
+        pprint(config_data)
     elif option == "list":
         check_version_update()
         print("""
@@ -88,6 +109,14 @@ def main(args):
         This command updates the rule_formatter tool.
         Usage:
           ace_rk update
+    -> \033[96;4;1mconvert\033[00m
+        This command helps in converting helix query to ace query.
+        Usage:
+          ace_rk convert
+    -> \033[96;4;1mrenew\033[00m
+        This command helps in updating the paths of xdr repository or ruletest path.
+        Usage:
+          ace_rk renew
     -> \033[96;4;1mlist\033[00m
         This command lists out the functions the tool offers.
         Usage:
