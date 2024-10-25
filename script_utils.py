@@ -136,6 +136,7 @@ def check_tag_duplication(file_path,config_data):
     flag = 0
     left_overs = []
     for i in tags:
+        i = i.lower()
         if i in tags_data.values():
             new_tags.append(i)
         elif i in "  ".join(tags_data.keys()).lower():

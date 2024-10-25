@@ -70,9 +70,10 @@ def main(args):
         yaml_file = os.path.join(dirname, 'config.yaml')
         with open(yaml_file,"r") as cf:
             config_data = yaml.safe_load(cf,)
-        config_data["repo_path"] = click.prompt("Enter the new repo_path or press enter if you want it unchanged: ",type=str,default=config_data["repo_path"])
+        config_data["repo_path"] = click.prompt("Enter the new xdr_ace folder path or press enter if you want it unchanged: ",type=str,default=config_data.get("repo_path",""))
         config_data["directory_path"] = os.path.join(config_data["repo_path"], 'rules/')
-        config_data["rt_path"] = click.prompt("Enter the new ruletest path or press enter if you want it unchanged: ",type=str,default=config_data["rt_path"])
+        config_data["rt_path"] = click.prompt("Enter the new ruletest path or press enter if you want it unchanged: ",type=str,default=config_data.get("rt_path",""))
+        config_data["tap_path"] = click.prompt("Enter the new tap folder path or press enter if you want it unchanged: ",type=str,default=config_data.get("tap_path",""))
         with open(yaml_file,'w') as file:
             new_data = config_data
             yaml.dump(new_data,file,sort_keys=False)
