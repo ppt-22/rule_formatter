@@ -2,6 +2,7 @@ import argparse
 import os
 import yaml
 import click
+from subprocess import Popen,PIPE,STDOUT
 from pprint import pprint
 from argparse import RawTextHelpFormatter
 from script_utils import get_file_path, check_version_update
@@ -11,6 +12,7 @@ from functions.edit import main_edit
 from functions.validate import main_validate
 from functions.update import main_update
 from functions.convert import main_convert
+from functions.translate import main_translate
 
 
 def main(args):
@@ -27,7 +29,7 @@ def main(args):
             else:
                 id_flag = True
         file_path = get_file_path(rule_id)
-        if file_path[1] == 0 and option != "edit":
+        if file_path[1] == 0 and option != "edit" and option != "translate":
             print("\033[91mErm..not found\033[00m")
             exit(0)
         else:
@@ -48,11 +50,14 @@ def main(args):
         # check_last_update()
         flag = f'{args.type}'
         main_validate(rule_id,flag,file_path)
+    elif option == "translate":
+        check_version_update()
+        print(f"\n\033[96;1mTranslating rule {rule_id} to ace format\033[00m")
+        main_translate(rule_id)
     elif option == "edit":
         check_version_update()
         print(f"\n\033[96;1mEditing rule {rule_id}\033[00m")
         rule_type = f'{args.type}'
-        # check_last_update()
         main_edit(rule_id,rule_type,file_path)
     elif option == "convert":
         main_convert()
