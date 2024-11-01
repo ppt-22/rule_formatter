@@ -95,9 +95,10 @@ def get_file_path(rule_id):
     return_code = 0
     rs = []
     for i in ace_files:
-        pattern = re.compile(r"(\d\.\d\.\d+[\/|\\])")
+        pattern = re.compile(r"(\d\.\d\.\d+[\/|\\|\.])")
         matches = list(set(re.findall(pattern,i)))
         if matches:
+            matched_rule_id = matches[0].strip('.')
             if "\\" in matches[0]:
                 matched_rule_id = matches[0].replace(r"\\","")
             if "/" in matches[0]:
