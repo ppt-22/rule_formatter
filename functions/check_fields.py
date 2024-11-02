@@ -10,7 +10,7 @@ def main_check_fields(file_path):
         rule = yaml.safe_load(rf,)
     try:
         r_fields = get_all_fields(rule)
-        rq = rule["metadata"].get("recommended_query")
+        rq = rule["metadata"].get("recommended_query",[])
     except:
         print("\n\033[1;91mMetadata section appears to be empty. Please check\033[00m")
         exit(0)
@@ -23,7 +23,7 @@ def main_check_fields(file_path):
         fields_messages = yaml.safe_load(f,)
         fields = list(fields_messages.keys())
     with open(gi_yaml_file,"r") as yf:
-        gi_data = yaml.safe_load(yf,).get('MIN_GI_MAP')
+        gi_data = yaml.safe_load(yf,).get('MIN_GI_MAP',[])
 
     # Fields check
     leftover_fields = (list(set(fields)-set(r_fields)))

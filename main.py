@@ -21,7 +21,7 @@ def main(args):
     file_path = ""
     if args.rule:
         rule_id = args.rule
-        print(rule_id)
+        # print(rule_id)
         # ans = input("proceed? y/n")
         id_flag = False
         while(not id_flag):
