@@ -21,6 +21,8 @@ def main(args):
     file_path = ""
     if args.rule:
         rule_id = args.rule
+        print(rule_id)
+        # ans = input("proceed? y/n")
         id_flag = False
         while(not id_flag):
             if len(rule_id) < 7:
@@ -52,8 +54,12 @@ def main(args):
         main_validate(rule_id,flag,file_path)
     elif option == "translate":
         check_version_update()
-        print(f"\n\033[96;1mTranslating rule {rule_id} to ace format\033[00m")
-        main_translate(rule_id)
+        ids = rule_id.split(" ")
+        for i in ids:
+            print(f"\n\033[96;1mTranslating rule {i} to ace format\033[00m")
+            main_translate(i)
+            ids.remove(i)
+        print("Rem ids: ",ids)
     elif option == "edit":
         check_version_update()
         print(f"\n\033[96;1mEditing rule {rule_id}\033[00m")

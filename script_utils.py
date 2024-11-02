@@ -91,7 +91,10 @@ def get_file_path(rule_id):
     with open(config_file,'r') as file:
         config_data = yaml.safe_load(file,)
         directory_path = config_data["directory_path"]
+        repo_path = config_data["repo_path"]
     ace_files = list_files_walk(directory_path)
+    non_prod = list_files_walk(os.path.join(repo_path,"non_prod"))
+    ace_files.extend(non_prod)
     return_code = 0
     rs = []
     for i in ace_files:

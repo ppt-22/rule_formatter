@@ -72,11 +72,11 @@ def main_validate(rule_id, flag, file_path):
     if matches:
         if flag != "output" : print(matches.group()+" times")
         trigger_count = matches.group().split(" ")[-1]
-        # print(trigger_count)
-        if int(trigger_count) == int(testcase_count):
+        match_count = len(matches2)
+        if int(match_count) == int(testcase_count):
             print("\n\033[1;92mValidation checks passed\033[00m")
         else:
-            print(f"\n\033[1;92mValidation checks passed. But seems like not all passed. Trigger count: {trigger_count}. No.of test cases: {testcase_count}\033[00m")
+            print(f"\n\033[1;93mValidation checks semi-passed. No.of events passed: {match_count}. No.of test cases: {testcase_count}\033[00m")
     else:
         print("\n\033[1;91mValidation checks failed\033[00m")
     main_mitre_tags_check(file_path)
