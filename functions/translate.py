@@ -9,4 +9,4 @@ def main_translate(rule_id):
         os.remove("temp_data.json")
     except:
         pass
-    print("\n\033[38:5:208mPlease add 'recommended actions' and 'tags'\033[00m")
+    print("\n\033[38:5:208mPlease add 'created', 'revision' and 'recommended actions' and 'tags'\033[00m")

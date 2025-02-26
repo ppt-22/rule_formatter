@@ -55,11 +55,12 @@ def main(args):
     elif option == "translate":
         check_version_update()
         ids = rule_id.split(" ")
+        rem_ids = ids.copy()
         for i in ids:
             print(f"\n\033[96;1mTranslating rule {i} to ace format\033[00m")
             main_translate(i)
-            ids.remove(i)
-        print("Rem ids: ",ids)
+            rem_ids.remove(i)
+        print("Rem ids: ",rem_ids)
     elif option == "edit":
         check_version_update()
         print(f"\n\033[96;1mEditing rule {rule_id}\033[00m")

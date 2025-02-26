@@ -19,6 +19,7 @@ def main_validate(rule_id, flag, file_path):
         rt_path = config_data['rt_path']
     output_flag = 0
     version_flag = 0
+    trace_flag = 0
     file_path = file_path
     if flag!="None":
         if flag == "output":
@@ -27,6 +28,9 @@ def main_validate(rule_id, flag, file_path):
         elif flag =="version":
             # change the version
             version_flag = 1
+        elif flag =="trace":
+            # trace
+            trace_flag = 1
         else:
             print(f"\033[1minvalid flag - {flag}\033[00m")
             print(f"\033[1mavailable flags - output, version\033[00m\n")
@@ -55,12 +59,16 @@ def main_validate(rule_id, flag, file_path):
         with open(file_path,'w') as f:
             yaml.safe_dump(yaml_data,f)
     args = [rt_path, "--format", "RBC" ,"--rules",file_path, "--write-rules", file_path,"--events",test_path,"--watchlists",watchlist_path, "--output"]
+    if trace_flag:
+        args.append("--trace")
+        args.append("all")
+        print(args)
     p = Popen(args,stdout=PIPE,stderr=STDOUT,universal_newlines=True)
     otpt = p.communicate()[0]
     p.kill()
     if version_flag:
         print(f"\n\033[1;92mVersion updated!\033[00m\n")
-    if output_flag:
+    if output_flag or trace_flag:
         print(f"{otpt}")
     pattern = re.compile(r"RESULT: Rule.*fired\s+\d+|s+times")
     pattern2 = re.compile(r"RESULT:     source event.*")
