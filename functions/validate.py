@@ -58,12 +58,15 @@ def main_validate(rule_id, flag, file_path):
         yaml_data["version"] = int(time.time())
         with open(file_path,'w') as f:
             yaml.safe_dump(yaml_data,f)
-    args = [rt_path, "--format", "RBC" ,"--rules",file_path, "--write-rules", file_path,"--events",test_path,"--watchlists",watchlist_path, "--output"]
+    args_v = [rt_path,"--rules",file_path,"--events",test_path,"--watchlists",watchlist_path, "--output"]
+    args_f = [rt_path, "--format", "RBC", "--rules", file_path, "--write-rules", file_path]
     if trace_flag:
-        args.append("--trace")
-        args.append("all")
-        print(args)
-    p = Popen(args,stdout=PIPE,stderr=STDOUT,universal_newlines=True)
+        args_v.append("--trace")
+        args_v.append("all")
+        # print(args_v)
+    print("\nformatting the rule first\n")
+    p = Popen(args_f,stdout=PIPE,stderr=STDOUT,universal_newlines=True)
+    p = Popen(args_v,stdout=PIPE,stderr=STDOUT,universal_newlines=True)
     otpt = p.communicate()[0]
     p.kill()
     if version_flag:
